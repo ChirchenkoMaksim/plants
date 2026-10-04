@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+
+public class Plant
+{
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public float Height { get; set; }
+
+    public Plant(string name, string type, float height)
+    {
+        Name = name;
+        Type = type;
+        Height = height;
+    }
+
+    public virtual void Bloom()
+    {
+        Console.WriteLine($"Растение {Name} цветет.");
+    }
+
+    public void Grow(float growth)
+    {
+        Height += growth;
+        Console.WriteLine($"Растение {Name} выросло на {growth} см. Новая высота: {Height} см.");
+    }
+}
+
+public class Flower : Plant
+{
+    public string Color { get; set; }
+    public int PetalCount { get; set; }
+
+    public Flower(
+        string name,
+        string type,
+        float height,
+        string color,
+        int petalCount)
+        : base(name, type, height)
+    {
+        Color = color;
+        PetalCount = petalCount;
+    }
+
+    public override void Bloom()
+    {
+        Console.WriteLine($"Цветок {Name} распускается и радует глаз!");
+    }
+
+    public void Wither()
+    {
+        Console.WriteLine($"Цветок {Name} начинает увядать.");
+    }
+}
+
+public class Tree : Plant
+{
+    public int Age { get; set; }
+    public string LeafType { get; set; }
+
+    public Tree(
+        string name,
+        string type,
+        float height,
+        int age,
+        string leafType)
+        : base(name, type, height)
+    {
+        Age = age;
+        LeafType = leafType;
+    }
+
+    public override void Bloom()
+    {
+        Console.WriteLine($"Дерево {Name} покрывается новыми листьями!");
+    }
+
+    public void GrowYears(int years)
+    {
+        Age += years;
+        Console.WriteLine($"Дерево {Name} выросло на {years} лет. Новый возраст: {Age} лет.");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        var plants = new List<Plant>
+        {
+            new Flower(
+                "Роза",
+                "Цветок",
+                40,
+                "Красный",
+                20),
+
+            new Tree(
+                "Береза",
+                "Дерево",
+                300,
+                10,
+                "Лиственные")
+        };
+
+        foreach (Plant plant in plants)
+        {
+            plant.Bloom();
+            plant.Grow(10);
+        }
+
+        Flower flower = (Flower)plants[0];
+        flower.Wither();
+
+        Tree tree = (Tree)plants[1];
+        tree.GrowYears(2);
+    }
+}
